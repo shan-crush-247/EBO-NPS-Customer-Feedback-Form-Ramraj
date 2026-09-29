@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d6256">
+  <title>Ramraj Cotton | Customer Feedback</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --green: #1b7a3e;
+      --green-dark: #0f4d2a;
+      --green-soft: #e4f5ea;
+      --ink: #14231b;
+      --muted: #5f6e66;
+      --line: #cfe0ec;
+      --paper: #f3f9fd;
+      --blue-wash: #d6e9f5;
+      --gold: #f2c94c;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      scrollbar-width: none;
+    }
+
+    html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+    body {
+      min-width: 320px;
+      width: 100%;
+      height: 100dvh;
+      min-height: 0;
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink);
+      background: var(--blue-wash);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+
+    .page {
+      position: relative;
+      width: min(430px, 100vw);
+      height: 100dvh;
+      min-height: 0;
+      max-height: 100dvh;
+      overflow: hidden;
+      overscroll-behavior: none;
+      background: var(--paper);
+      box-shadow: 0 0 0 1px rgba(15, 77, 42, .08);
+    }
+
+    .message-panel { position: absolute; inset: 0; z-index: 10; width: 100%; }
+
+    .phone {
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      border: 0;
+      border-radius: 0;
+      background: #efe7dd;
+    }
+
+    .phone-top {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 11px 18px;
+      color: white;
+      background: #075e54;
+    }
+
+    .back, .more { color: #fff; font-size: 25px; line-height: 1; }
+    .more { margin-left: auto; font-size: 23px; }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      flex: none;
+      display: block;
+      padding: 4px;
+      border-radius: 50%;
+      background: #fff;
+      object-fit: contain;
+    }
+    .contact-name { font-size: 16px; font-weight: 700; }
+    .verified { color: #72c7ff; }
+    .contact-type { margin-top: 3px; color: rgba(255,255,255,.82); font-size: 12px; }
+
+    .chat {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px 15px 15px;
+      background-color: #efe7dd;
+      background-image: radial-gradient(rgba(0, 0, 0, .035) 1px, transparent 1px);
+      background-size: 14px 14px;
+    }
+
+    .today {
+      align-self: center;
+      margin: 0 0 12px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      color: #54656f;
+      background: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, .08);
+    }
+
+    .message {
+      padding: 9px 10px 8px;
+      border-radius: 0 10px 10px 10px;
+      background: #fff;
+      box-shadow: 0 1px 1px rgba(0,0,0,.08);
+      font-family: system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.48;
+    }
+
+    .link-title { color: #111b21; font-size: 13px; font-weight: 700; }
+    .message-copy { color: #111b21; font-size: 14px; line-height: 1.45; }
+    .message-copy a { color: #027eb5; }
+    .message-actions { min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 8px -10px -8px; padding: 0 10px; border-top: 1px solid #e5e7e6; }
+    .message-cta { min-width: 0; height: 40px; flex: 1; display: flex; align-items: center; justify-content: flex-start; gap: 7px; padding: 0 2px; border: 0; color: #128c61; background: transparent; font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+    .message-copy a.message-cta { color: #128c61; text-decoration: none; }
+    .message-cta:hover { color: #0f4d2a; background: #fbfdfc; }
+    .message-cta svg { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .message-time { flex: none; margin: 0 1px 0 0; color: #667781; font-size: 11px; text-align: right; }
+
+    .composer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 13px;
+    }
+    .composer-input {
+      height: 42px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 15px;
+      border-radius: 24px;
+      color: #8696a0;
+      background: white;
+      font-size: 14px;
+    }
+    .mic {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: white;
+      background: #00a884;
+      font-size: 18px;
+    }
+
+    .form-panel {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 0;
+      border-radius: 0;
+      background: var(--paper);
+      animation: form-fade .35s ease-out both;
+    }
+
+    .form-header {
+      flex: none;
+      padding: clamp(8px, 1.8vh, 20px) 20px clamp(8px, 1.6vh, 18px);
+      color: white;
+      background: linear-gradient(135deg, #0f4d2a 0%, #1b7a3e 60%, #2e9a52 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .form-header::before { content: ""; position: absolute; right: -40px; top: -60px; width: 180px; height: 180px; border: 26px solid rgba(242, 201, 76, .18); border-radius: 50%; }
+    .form-header::after { content: ""; position: absolute; left: -30px; bottom: -70px; width: 120px; height: 120px; border-radius: 50%; background: rgba(243, 249, 253, .05); }
+    .brand-row { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; }
+    .header-logo { display: block; width: auto; height: clamp(26px, 4vh, 34px); padding: 2px 4px; border-radius: 6px; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.18); }
+    .progress-label { margin-left: auto; color: #e0f0e9; font-size: 12px; white-space: nowrap; }
+    .progress-track { position: relative; z-index: 1; height: 3px; margin-top: 6px; border-radius: 2px; background: rgba(243, 249, 253, .18); }
+    .progress-value { width: 33.333%; height: 100%; border-radius: inherit; background: var(--gold); transition: width .25s ease; }
+
+    .header-copy { position: relative; z-index: 1; margin-top: clamp(6px, 1.4vh, 14px); }
+    h1 { margin: 0; font-family: Georgia, "Palatino Linotype", Palatino, serif; font-size: clamp(19px, 2.8vh, 23px); font-weight: 400; line-height: 1.2; letter-spacing: 0; }
+    .header-copy p { display: -webkit-box; max-width: 380px; margin: 3px 0 0; overflow: hidden; color: rgba(243, 249, 253, .86); font-size: clamp(11px, 1.6vh, 13px); line-height: 1.35; line-clamp: 2; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+
+    #step-one { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    #feedback { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    .form-body { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: space-evenly; gap: clamp(4px, 1.4vh, 16px); overflow-y: auto; overscroll-behavior: contain; padding: clamp(6px, 1.4vh, 18px) 18px 6px; }
+    .field { margin-top: 0; }
+    .field-heading { min-height: 15px; display: flex; align-items: baseline; justify-content: space-between; gap: 6px; margin-bottom: 4px; }
+    .field-label { display: block; margin: 0; color: #5f6e66; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .field-warning { display: none; min-width: 0; color: #b3261e; font-size: 10px; font-weight: 600; line-height: 1.25; text-align: right; }
+    .field-warning.visible { display: block; }
+    .field.invalid .control, .field.invalid .picker-trigger { border-color: #b3261e; }
+    .consent.invalid { border-color: #b3261e; }
+    .required { color: #b3261e; }
+
+    .languages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .language {
+      height: clamp(28px, 5.2vh, 44px);
+      min-height: 0;
+      padding: 0 6px;
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      color: #334640;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      transition: border-color .15s, background .15s, color .15s;
+    }
+    .language:hover { border-color: var(--green); }
+    .language.selected { border-color: var(--green); color: #f3f9fd; background: var(--green); box-shadow: 0 4px 10px rgba(27, 122, 62, .18); }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .control {
+      width: 100%;
+      height: clamp(32px, 6vh, 48px);
+      padding: 0 12px;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      outline: none;
+      color: #14231b;
+      background-color: white;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .control:focus { border-color: #1b7a3e; box-shadow: 0 0 0 3px rgba(27, 122, 62, .12); }
+    .control::placeholder { color: #9fb2a9; font-weight: 500; font-size: 13px; }
+    .picker-trigger { display: flex; align-items: center; justify-content: space-between; gap: 8px; text-align: left; cursor: pointer; }
+    .picker-trigger.selected { border-color: #cfe0ec; color: var(--green-dark); background: #eaf6ee; }
+    .picker-trigger:not(.selected) > span:first-child { color: #9fb2a9; font-weight: 500; }
+    .picker-chevron { width: 14px; height: 14px; flex: none; color: #1b7a3e; }
+
+    .picker-overlay { position: absolute; inset: 0; z-index: 30; display: flex; align-items: flex-end; animation: fade-in .2s ease; }
+    .picker-backdrop { position: absolute; inset: 0; border: 0; background: rgba(15, 40, 30, .45); backdrop-filter: blur(2px); }
+    .picker-sheet { position: relative; z-index: 1; width: 100%; max-height: min(74dvh, 560px); overflow-y: auto; padding: 10px 16px calc(14px + env(safe-area-inset-bottom)); border-radius: 22px 22px 0 0; background: #f3f9fd; box-shadow: 0 -12px 40px rgba(15, 77, 42, .25); animation: sheet-enter .2s ease-out; }
+    .sheet-handle { width: 40px; height: 4px; margin: 0 auto 10px; border-radius: 2px; background: #bfd4e3; }
+    .sheet-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+    .sheet-title { color: var(--green-dark); font-family: Georgia, "Palatino Linotype", Palatino, serif; font-size: 19px; }
+    .sheet-close { width: 30px; height: 30px; display: grid; place-items: center; border: 0; border-radius: 50%; color: var(--green); background: #e3f0f8; font-size: 20px; line-height: 1; }
+    .sheet-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .sheet-option { min-width: 0; min-height: 46px; display: flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1.5px solid var(--line); border-radius: 12px; color: #334640; background: #fff; text-align: left; font-size: 13px; font-weight: 600; transition: border-color .15s, background .15s, color .15s; }
+    .sheet-option[aria-pressed="true"] { border-color: var(--green); color: #f3f9fd; background: var(--green); }
+    .sheet-indicator { width: 18px; height: 18px; flex: none; display: grid; place-items: center; border: 1.5px solid #c5d5cd; border-radius: 50%; color: transparent; background: #f7fbf9; font-size: 11px; font-weight: 800; }
+    .sheet-option[aria-pressed="true"] .sheet-indicator { border-color: var(--gold); color: var(--green-dark); background: var(--gold); }
+    @keyframes sheet-enter { from { opacity: .75; } to { opacity: 1; } }
+
+    .scores { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+    .score {
+      min-width: 0;
+      height: clamp(28px, 5.4vh, 46px);
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      color: var(--green-dark);
+      background: #f3f9fd;
+      font-size: 15px;
+      font-weight: 700;
+      transition: background .15s, color .15s, border-color .15s, transform .15s;
+    }
+    .score:hover { transform: translateY(-1px); }
+    .score:nth-child(-n+6) { border-color: rgba(198, 40, 40, .47); color: #c62828; background: rgba(198, 40, 40, .12); }
+    .score:nth-child(n+7):nth-child(-n+8) { border-color: rgba(224, 138, 30, .47); color: #e08a1e; background: rgba(224, 138, 30, .12); }
+    .score:nth-child(n+9) { border-color: rgba(11, 138, 94, .47); color: #0b8a5e; background: rgba(11, 138, 94, .12); }
+    .score:nth-child(-n+6).selected { border-color: #c62828; color: #fff; background: #c62828; }
+    .score:nth-child(n+7):nth-child(-n+8).selected { border-color: #e08a1e; color: #fff; background: #e08a1e; }
+    .score:nth-child(n+9).selected { border-color: #0b8a5e; color: #fff; background: #0b8a5e; }
+    .score-legend { display: flex; justify-content: space-between; gap: 6px; margin-top: 7px; color: #5f6e66; font-size: 10px; font-weight: 600; white-space: nowrap; }
+    .score-legend span { display: flex; align-items: center; gap: 4px; }
+    .legend-dot { width: 8px; height: 8px; flex: none; border-radius: 50%; }
+    .legend-dot.detractor { background: #c62828; }
+    .legend-dot.passive { background: #e08a1e; }
+    .legend-dot.promoter { background: #0b8a5e; }
+    .score-legend strong { color: #49635a; font-weight: 700; }
+
+    .consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 12px;
+      padding: clamp(5px, 1.2vh, 12px) 12px;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      color: #334640;
+      background: #fff;
+      font-size: 12px;
+      line-height: 1.35;
+      cursor: pointer;
+    }
+    .consent-copy { min-width: 0; display: grid; gap: 4px; }
+    .consent input { width: 18px; height: 18px; flex: none; margin: 1px 0 0; accent-color: var(--green); }
+    .error { min-height: 15px; margin-top: 8px; color: #b44e3c; font-size: 11px; }
+
+    .form-footer { position: relative; z-index: 2; flex: none; padding: 8px 18px calc(10px + env(safe-area-inset-bottom)); border-top: 1px solid #dceaf3; background: #f3f9fd; }
+    .next {
+      width: 100%;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 0;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, #1b7a3e, #0f4d2a);
+      font-size: 15px;
+      font-weight: 700;
+      transition: background .15s, transform .15s;
+    }
+    .next:hover { transform: translateY(-1px); filter: brightness(1.08); }
+    .next:focus-visible, .language:focus-visible, .score:focus-visible { outline: 3px solid #8dbca5; outline-offset: 2px; }
+
+    .step-two-screen { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    .follow-up { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: clamp(5px, 1vh, 10px); overflow-y: auto; overscroll-behavior: contain; padding: clamp(6px, 1.2vh, 12px) 18px 12px; }
+    .step-summary { flex: none; display: flex; align-items: center; gap: 10px; margin: 0; padding: 6px 12px; border: 1.5px solid var(--line); border-radius: 14px; background: linear-gradient(135deg, #fff, #eaf6ee); box-shadow: 0 4px 14px rgba(15, 77, 42, .08); }
+    .summary-rating { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 10px; color: #fff; font-family: Georgia, serif; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,.15); }
+    .summary-copy { min-width: 0; flex: 1; }
+    .summary-tier { font-size: 13px; font-weight: 700; }
+    .summary-detail { margin-top: 3px; overflow: hidden; color: #5f6e66; font-size: 11.5px; text-overflow: ellipsis; white-space: nowrap; }
+    .clear-selection { flex: none; display: inline-flex; align-items: center; gap: 4px; margin-left: auto; padding: 4px 8px; border: 1px solid #bfe0cb; border-radius: 999px; color: #1b7a3e; background: #fff; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+    .clear-selection[hidden] { display: none; }
+    .clear-selection span { font-size: 14px; line-height: .8; }
+    .follow-up h1 { font-size: 20px; font-weight: 400; line-height: 1.25; }
+    .follow-up-intro { margin: 6px 0 16px; color: #5f6e66; font-size: 13px; line-height: 1.45; }
+    .option-list { flex: none; display: flex; flex-direction: column; overflow: hidden; border: 1px solid #d8e7f0; border-radius: 16px; background: #fff; box-shadow: 0 8px 24px rgba(15, 77, 42, .08), 0 1px 0 rgba(255, 255, 255, .8) inset; }
+    .option-button { position: relative; width: 100%; min-height: clamp(40px, 5.6vh, 48px); display: flex; align-items: center; gap: 12px; padding: 4px 14px 4px 12px; border: 0; border-bottom: 1px solid #edf3f7; border-radius: 0; color: #334640; background: #fff; text-align: left; font-size: 13px; font-weight: 500; line-height: 1.3; transition: background .18s, color .18s; }
+    .option-button:last-child { border-bottom: 0; }
+    .option-button[aria-pressed="true"] { color: #0f4d2a; background: linear-gradient(90deg, #e4f5ea, #f4fbf6); font-weight: 700; }
+    .option-bar { position: absolute; left: 0; top: 6px; bottom: 6px; width: 3px; border-radius: 0 3px 3px 0; background: transparent; }
+    .option-button[aria-pressed="true"] .option-bar { background: var(--green); }
+    .option-dot { width: 24px; height: 24px; flex: none; display: grid; place-items: center; border: 2px solid #c5d5cd; border-radius: 50%; color: transparent; background: #f7fbf9; font-size: 12px; font-weight: 800; transition: border-color .18s, background .18s, box-shadow .18s; }
+    .option-button[aria-pressed="true"] .option-dot { border-color: var(--green); color: #fff; background: linear-gradient(135deg, #2e9a52, #1b7a3e); box-shadow: 0 2px 8px rgba(27, 122, 62, .4); }
+    .follow-up-question { display: flex; flex-direction: column; gap: 7px; margin-top: 0; }
+    .follow-up-field-heading { min-height: 15px; display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    .follow-up-warning { min-width: 0; color: #b3261e; font-size: 10px; font-weight: 600; line-height: 1.25; text-align: right; }
+    .reasons-warning { min-height: 0; }
+    .reasons-warning:not(:empty) { min-height: 14px; }
+    .follow-up-question.other-selected .control { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(242, 201, 76, .35); }
+    .choice-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+    .choice-button { min-height: 38px; padding: 6px 8px; border: 1.5px solid var(--line); border-radius: 10px; color: #334640; background: #fff; font-size: 12px; font-weight: 600; }
+    .choice-button[aria-pressed="true"] { border-color: var(--green); color: var(--green-dark); background: var(--green-soft); }
+    .follow-up textarea { height: clamp(44px, 7vh, 64px); min-height: 44px; padding: 10px 12px; resize: none; font-size: 13.5px; font-weight: 400; line-height: 1.45; }
+    .step-actions { display: flex; gap: 10px; }
+    .step-actions .next { flex: 2; }
+    .previous { flex: 1; min-height: 46px; border: 1.5px solid #bfd4e3; border-radius: 14px; color: var(--green-dark); background: #fff; font-size: 14px; font-weight: 700; }
+    .previous:hover { background: #e3f0f8; }
+    .thanks { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; overflow-y: auto; padding: 20px 24px; text-align: center; }
+    .thanks-icon { width: 84px; height: 84px; flex: none; display: grid; place-items: center; border-radius: 50%; color: var(--green-dark); background: radial-gradient(circle at 30% 30%, #f2c94c, #d9a92b); box-shadow: 0 12px 30px rgba(242, 201, 76, .35); }
+    .thanks-icon svg { width: 40px; height: 40px; fill: none; stroke: #0f4d2a; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+    .thanks h1 { max-width: 100%; color: #0f4d2a; font-size: 24px; font-weight: 400; line-height: 1.2; }
+    .thanks p { max-width: 300px; margin: 0; color: #334640; font-size: 13.5px; line-height: 1.5; }
+    .success-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 4px; }
+    .success-tag { padding: 6px 10px; border: 1.5px solid #cfe0ec; border-radius: 999px; color: #5f6e66; background: #fff; font-size: 11.5px; font-weight: 600; }
+    .success-footer { display: block; }
+    .done { width: 100%; min-height: clamp(38px, 6.5vh, 50px); border: 1.5px solid #bfd4e3; border-radius: 14px; color: var(--green-dark); background: #fff; font-size: 15px; font-weight: 700; }
+    .form-body, .follow-up, .picker-sheet, .thanks { scrollbar-width: none; -ms-overflow-style: none; }
+    .form-body::-webkit-scrollbar, .follow-up::-webkit-scrollbar, .picker-sheet::-webkit-scrollbar, .thanks::-webkit-scrollbar { display: none; width: 0; height: 0; }
+    [hidden] { display: none !important; }
+
+    @keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes form-fade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+    @media (max-width: 480px) {
+      .page { width: 100%; }
+      .form-header { padding-right: 18px; padding-left: 18px; }
+      .form-body { padding-right: 18px; padding-left: 18px; }
+      .form-footer { padding-right: 18px; padding-left: 18px; }
+      .follow-up { padding-right: 18px; padding-left: 18px; }
+      .score { height: clamp(28px, 5.4vh, 46px); }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="message-panel" id="whatsapp-screen" aria-label="Feedback invitation message">
+      <div class="phone">
+        <header class="phone-top">
+          <span class="back" aria-hidden="true">‹</span>
+          <img class="brand-mark" data-ramraj-logo alt="Ramraj Cotton">
+          <div>
+            <div class="contact-name">Ramraj Cotton <span class="verified" aria-label="Verified">●</span></div>
+            <div class="contact-type">Business account</div>
+          </div>
+          <span class="more" aria-hidden="true">⋮</span>
+        </header>
+        <div class="chat">
+          <div class="today">TODAY</div>
+          <article class="message">
+            <div class="message-copy">Dear Mr. Arun Kumar, Thank you for shopping at Ramraj. Earned points 150 and total wallet points 385. Please share your feedback by clicking below.</div>
+            <div class="message-actions"><a class="message-cta open-feedback" href="#feedback-form"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4 11 13"/><path d="M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg><span>Click here to share feedback</span></a><div class="message-time">10:15 am</div></div>
+          </article>
+          <div class="composer" aria-hidden="true">
+            <div class="composer-input"><span>☻</span> Message</div>
+            <div class="mic">♩</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-panel" id="feedback-form" aria-labelledby="welcome-title" hidden>
+      <header class="form-header">
+        <div class="brand-row">
+          <img class="header-logo" data-ramraj-logo alt="Ramraj Cotton">
+          <span class="progress-label" id="step-label">Step 1 of 3</span>
+        </div>
+        <div class="progress-track" aria-label="Progress"><div class="progress-value" id="progress-value"></div></div>
+        <div class="header-copy">
+          <h1 id="welcome-title">Welcome, Mr. Arun Kumar</h1>
+          <p id="header-note">Thank you for shopping with us. Your honest feedback helps us serve you better. We would be glad to hear from you.</p>
+        </div>
+      </header>
+
+      <div id="step-one">
+        <form id="feedback" novalidate>
+          <div class="form-body">
+            <div class="field">
+              <div class="field-heading"><span class="field-label"><span id="language-label">Select language</span> <span class="required">*</span></span><span class="field-warning" id="language-warning" aria-live="polite"></span></div>
+              <div class="languages" role="group" aria-label="Select language">
+                <button class="language" type="button" aria-pressed="false">English</button>
+                <button class="language" type="button" aria-pressed="false">தமிழ்</button>
+                <button class="language" type="button" aria-pressed="false">हिन्दी</button>
+                <button class="language" type="button" aria-pressed="false">తెలుగు</button>
+                <button class="language" type="button" aria-pressed="false">ಕನ್ನಡ</button>
+                <button class="language" type="button" aria-pressed="false">മലയാളം</button>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <div class="field-heading"><label class="field-label" for="age-trigger"><span id="age-label">Age group</span> <span class="required">*</span></label><span class="field-warning" id="age-warning" aria-live="polite"></span></div>
+                <button class="control picker-trigger" id="age-trigger" type="button" data-picker-open="age" aria-haspopup="dialog" aria-expanded="false" aria-controls="picker-overlay">
+                  <span id="age-display">Select</span><svg class="picker-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <input id="age" name="age" type="hidden">
+              </div>
+              <div class="field">
+                <div class="field-heading"><label class="field-label" for="pincode"><span id="pin-label">Pin code</span> <span class="required">*</span></label><span class="field-warning" id="pin-warning" aria-live="polite"></span></div>
+                <input class="control" id="pincode" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="6" pattern="[0-9]{6}" placeholder="Enter 6 digit pin code" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-heading"><label class="field-label" for="occasion-trigger"><span id="occasion-label">Occasion</span> <span class="required">*</span></label><span class="field-warning" id="occasion-warning" aria-live="polite"></span></div>
+              <button class="control picker-trigger" id="occasion-trigger" type="button" data-picker-open="occasion" aria-haspopup="dialog" aria-expanded="false" aria-controls="picker-overlay">
+                <span id="occasion-display">What was this for?</span><svg class="picker-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <input id="occasion" name="occasion" type="hidden">
+            </div>
+
+            <div class="field">
+              <div class="field-heading"><span class="field-label"><span id="rate-label">Rate your experience</span> <span class="required">*</span></span><span class="field-warning" id="rating-warning" aria-live="polite"></span></div>
+              <div class="scores" role="group" aria-label="Rate your experience from 1 to 10">
+                <button class="score" type="button" aria-pressed="false">1</button><button class="score" type="button" aria-pressed="false">2</button><button class="score" type="button" aria-pressed="false">3</button><button class="score" type="button" aria-pressed="false">4</button><button class="score" type="button" aria-pressed="false">5</button><button class="score" type="button" aria-pressed="false">6</button><button class="score" type="button" aria-pressed="false">7</button><button class="score" type="button" aria-pressed="false">8</button><button class="score" type="button" aria-pressed="false">9</button><button class="score" type="button" aria-pressed="false">10</button>
+              </div>
+              <div class="score-legend"><span><i class="legend-dot detractor"></i>1–6 <span id="detractor-label">Detractor</span></span><span><i class="legend-dot passive"></i>7–8 <span id="passive-label">Passive</span></span><span><i class="legend-dot promoter"></i>9–10 <span id="promoter-label">Promoter</span></span></div>
+            </div>
+
+            <label class="consent" id="consent-field"><input id="consent" type="checkbox"><span class="consent-copy"><span><span id="consent-copy">I consent to Ramraj Cotton using this feedback to improve its products and services, and to contact me if a follow-up is needed.</span> <span class="required">*</span></span><span class="field-warning" id="consent-warning" aria-live="polite"></span></span></label>
+            <div class="error" id="error" aria-live="polite"></div>
+          </div>
+          <div class="form-footer"><button class="next" id="next-button" type="submit">Next <span aria-hidden="true">→</span></button></div>
+        </form>
+      </div>
+
+      <div class="step-two-screen" id="step-two" hidden>
+        <div class="follow-up">
+        <div class="step-summary">
+          <div class="summary-rating" id="summary-rating">8</div>
+          <div class="summary-copy">
+            <div class="summary-tier" id="summary-tier">Rating: 8/10</div>
+            <div class="summary-detail" id="summary-detail">Mr. Arun Kumar · Occasion: Wedding</div>
+          </div>
+          <button class="clear-selection" id="clear-selection" type="button" hidden><span aria-hidden="true">×</span>Clear Selection</button>
+        </div>
+        <div class="follow-up-warning reasons-warning" id="reasons-warning" aria-live="polite"></div>
+        <div class="option-list" id="follow-up-options" role="group" aria-label="Feedback reasons"></div>
+        <div id="follow-up-extras"></div>
+        <div class="follow-up-question" id="remarks-field">
+          <div class="follow-up-field-heading"><label class="field-label" for="feedback-text" id="feedback-label">Remarks</label><span class="follow-up-warning" id="comment-warning" aria-live="polite"></span></div>
+          <textarea class="control" id="feedback-text" placeholder="Remarks (optional)"></textarea>
+        </div>
+        </div>
+        <div class="form-footer">
+          <div class="step-actions">
+            <button class="previous" id="previous" type="button">Previous</button>
+            <button class="next" id="finish" type="button">Submit <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="thanks" id="step-three" hidden>
+        <div class="thanks-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 12.5 5 5L20 6.5"/></svg></div>
+        <h1 id="thankyou-title">Thank you, Mr. Arun Kumar</h1>
+        <p id="thankyou-note">We read every response personally. Thank you for your time and honesty.</p>
+        <div class="success-tags" id="success-tags"></div>
+      </div>
+      <div class="form-footer success-footer" id="success-footer" hidden><button class="done" id="done" type="button">Done</button></div>
+
+      <div class="picker-overlay" id="picker-overlay" hidden>
+        <button class="picker-backdrop" type="button" data-picker-close aria-label="Close picker"></button>
+        <section class="picker-sheet" role="dialog" aria-modal="true" aria-labelledby="picker-title">
+          <div class="sheet-handle" aria-hidden="true"></div>
+          <div class="sheet-heading">
+            <h2 class="sheet-title" id="picker-title"></h2>
+            <button class="sheet-close" id="picker-close" type="button" aria-label="Close picker">×</button>
+          </div>
+          <div class="sheet-options" id="picker-options"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const ramrajLogo = 'data:image/webp;base64,' + [
+      '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'
+    ].join('');
+    document.querySelectorAll('[data-ramraj-logo]').forEach((image) => { image.src = ramrajLogo; });
+    const languageButtons = [...document.querySelectorAll('.language')];
+    const scoreButtons = [...document.querySelectorAll('.score')];
+    const whatsappScreen = document.getElementById('whatsapp-screen');
+    const formScreen = document.getElementById('feedback-form');
+    const pickerOverlay = document.getElementById('picker-overlay');
+    const pickerChoices = {
+      age: ['Under 18', '18 – 25', '26 – 35', '36 – 45', '46 – 60', '60+'],
+      occasion: ['Wedding', 'Festival', 'Temple / Pooja', 'Daily wear', 'Gift', 'Office / Formal', 'Other']
+    };
+    const followUpBands = {
+      detractor: {
+        name: 'Detractor', color: '#c62828',
+        title: "We're sorry to hear that. What was the main reason for your experience?",
+        options: ['Product quality was not good', 'Limited collections', 'Staff was not helpful or courteous', 'Store was not well-maintained', 'Price is too high', 'Other'],
+        placeholder: 'A few honest lines help us more than you think…',
+        question: 'May we call you back?', choices: ['Yes, call me', 'No, thanks']
+      },
+      passive: {
+        name: 'Passive', color: '#e08a1e',
+        title: 'Thank you! What could we improve to make your experience even better?',
+        options: ['More collections', 'Better store ambience and maintenance', 'Better staff assistance', 'Better pricing', 'Other'],
+        placeholder: 'One thing that would have made it a 10…'
+      },
+      promoter: {
+        name: 'Promoter', color: '#0b8a5e',
+        title: "That's wonderful! What did you love most about your experience?",
+        options: ['Product quality was very good', 'Good collections', 'Staff was helpful & understood my need', 'Clean and well-organised store', 'Price is reasonable', 'Other'],
+        placeholder: 'Anyone or anything you would like to mention…',
+        question: 'Would you recommend us?', choices: ['Yes', 'Maybe', 'No']
+      }
+    };
+    const canonicalAges = ['Under 18', '18 – 25', '26 – 35', '36 – 45', '46 – 60', '60+'];
+    const canonicalOccasions = ['Wedding', 'Festival', 'Temple / Pooja', 'Daily wear', 'Gift', 'Office / Formal', 'Other'];
+    const copy = {
+      English: {
+        step: 'Step {n} of 3', welcome: 'Welcome, Mr. Arun Kumar', welcomeNote: 'Thank you for shopping with us. Your honest feedback helps us serve you better. We would be glad to hear from you.',
+        labels: ['Select language', 'Age group', 'Pin code', 'Occasion', 'Rate your experience'], ageSelect: 'Select', occasionPrompt: 'What was this for?', pinPlaceholder: 'Enter 6 digit pin code', consent: 'I consent to Ramraj Cotton using this feedback to improve its products and services, and to contact me if a follow-up is needed.',
+        ages: canonicalAges, occasions: canonicalOccasions, bands: ['Detractor', 'Passive', 'Promoter'],
+        actions: ['Next', 'Previous', 'Submit', 'Done'], optional: 'optional', ratingTag: 'Rating', clear: 'Clear Selection', successTitle: 'Submitted successfully', successNote: 'We read every response personally. Thank you for your time and your honesty.', thankYou: 'Thank you, Mr. Arun Kumar',
+        errors: ['Pick one language', 'Required', 'Required', '6 digits needed', 'Select an occasion', 'Tap a number from 1 to 10', 'Please tick the box to continue', 'Pick at least one', 'Remarks are required when Other is selected', 'Please enter at least 10 characters'],
+        tiers: [
+          {title:"We're sorry to hear that. What was the main reason for your experience?", options:['Product quality was not good','Limited collections','Staff was not helpful or courteous','Store was not well-maintained','Price is too high','Other'], question:'May we call you back?', choices:['Yes, call me','No, thanks'], remarks:'Tell us what happened', placeholder:'A few honest lines help us more than you think…', success:'Your feedback has been submitted successfully. Thank you for helping Ramraj Cotton serve you better.'},
+          {title:'Thank you! What could we improve to make your experience even better?', options:['More collections','Better store ambience and maintenance','Better staff assistance','Better pricing','Other'], question:'', choices:[], remarks:'Anything else?', placeholder:'One thing that would have made it a 10…', success:'Your feedback has been submitted successfully. Thank you for helping Ramraj Cotton serve you better.'},
+          {title:"That's wonderful! What did you love most about your experience?", options:['Product quality was very good','Good collections','Staff was helpful & understood my need','Clean and well-organised store','Price is reasonable','Other'], question:'Would you recommend us?', choices:['Yes','Maybe','No'], remarks:'A word for our team?', placeholder:'Anyone or anything you would like to mention…', success:'Your feedback has been submitted successfully. Thank you for helping Ramraj Cotton serve you better.'}
+        ]
+      },
+      'தமிழ்': {
+        step:'படி {n} / 3', welcome:'வருக, திரு. அருண் குமார்', welcomeNote:'எங்களிடம் வாங்கியதற்கு நன்றி. உங்கள் நேர்மையான கருத்து உங்களுக்கு சிறப்பாக சேவை செய்ய உதவும். உங்கள் கருத்தைக் கேட்க ஆவலாக இருக்கிறோம்.',
+        labels:['மொழியைத் தேர்ந்தெடுக்கவும்','வயதுப் பிரிவு','பின் கோடு','சந்தர்ப்பம்','உங்கள் அனுபவத்தை மதிப்பிடுங்கள்'], ageSelect:'தேர்வு', occasionPrompt:'எதற்காக வாங்கினீர்கள்?', pinPlaceholder:'6 இலக்க பின் கோடை உள்ளிடவும்', consent:'இந்தக் கருத்தை ராம்ராஜ் காட்டன் தனது தயாரிப்புகள் மற்றும் சேவைகளை மேம்படுத்தப் பயன்படுத்தவும், தேவைப்பட்டால் என்னைத் தொடர்பு கொள்ளவும் சம்மதிக்கிறேன்.',
+        ages:['18க்கு கீழ்','18 – 25','26 – 35','36 – 45','46 – 60','60+'], occasions:['திருமணம்','பண்டிகை','கோவில் / பூஜை','தினசரி உடை','பரிசு','அலுவலகம்','மற்றவை'], bands:['Detractor','Passive','Promoter'], actions:['அடுத்து','முந்தையது','சமர்ப்பிக்க','முடிந்தது'], optional:'விருப்பம்', ratingTag:'மதிப்பீடு', clear:'தேர்வை அழி', successTitle:'வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது', successNote:'ஒவ்வொரு பதிலையும் நாங்கள் நேரடியாகப் படிக்கிறோம். உங்கள் நேரத்திற்கும் நேர்மைக்கும் நன்றி.', thankYou:'நன்றி, திரு. அருண் குமார்',
+        errors:['ஒரு மொழியைத் தேர்ந்தெடுக்கவும்','வயதுப் பிரிவைத் தேர்ந்தெடுக்கவும்','பின் கோடை உள்ளிடவும்','சரியாக 6 இலக்கங்கள் வேண்டும்','சந்தர்ப்பத்தைத் தேர்ந்தெடுக்கவும்','1 முதல் 10 வரை ஒரு எண்ணைத் தொடவும்','தொடர பெட்டியைத் தேர்வு செய்யவும்','குறைந்தது ஒன்றைத் தேர்ந்தெடுக்கவும்','மற்றவை தேர்வு செய்தால் குறிப்பு அவசியம்','குறைந்தது 10 எழுத்துகள் எழுதவும்'],
+        tiers:[
+          {title:'வருந்துகிறோம். உங்கள் அனுபவத்திற்கு முக்கிய காரணம் என்ன?',options:['தயாரிப்பின் தரம் நன்றாக இல்லை','குறைந்த கலெக்ஷன்கள்','ஊழியர்கள் உதவியாகவோ மரியாதையாகவோ இல்லை','கடை நன்றாக பராமரிக்கப்படவில்லை','விலை அதிகம்','மற்றவை'],question:'நாங்கள் உங்களை அழைக்கலாமா?',choices:['ஆம், அழைக்கவும்','வேண்டாம்'],remarks:'என்ன நடந்தது என்று சொல்லுங்கள்',placeholder:'சில நேர்மையான வரிகள் எங்களுக்கு பெரிதும் உதவும்…',success:'உங்கள் கருத்து வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது. ராம்ராஜ் காட்டன் சிறப்பாக சேவை செய்ய உதவியதற்கு நன்றி.'},
+          {title:'நன்றி! உங்கள் அனுபவத்தை மேலும் சிறப்பாக்க நாங்கள் எதை மேம்படுத்த வேண்டும்?',options:['மேலும் கலெக்ஷன்கள்','சிறந்த கடை சூழல் மற்றும் பராமரிப்பு','சிறந்த ஊழியர் உதவி','சிறந்த விலை','மற்றவை'],question:'',choices:[],remarks:'வேறு ஏதேனும்?',placeholder:'10 ஆக மாற்றியிருக்கக்கூடிய ஒன்று…',success:'உங்கள் கருத்து வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது. ராம்ராஜ் காட்டன் சிறப்பாக சேவை செய்ய உதவியதற்கு நன்றி.'},
+          {title:'அருமை! உங்கள் அனுபவத்தில் எது மிகவும் பிடித்தது?',options:['தயாரிப்பின் தரம் மிகச் சிறப்பு','நல்ல கலெக்ஷன்கள்','ஊழியர்கள் உதவியாக இருந்தனர், தேவையைப் புரிந்தனர்','சுத்தமான, ஒழுங்கான கடை','நியாயமான விலை','மற்றவை'],question:'எங்களை பரிந்துரைப்பீர்களா?',choices:['ஆம்','இருக்கலாம்','இல்லை'],remarks:'எங்கள் குழுவிற்கு ஒரு வார்த்தை?',placeholder:'குறிப்பிட விரும்பும் யாரையும் / எதையும்…',success:'உங்கள் கருத்து வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது. ராம்ராஜ் காட்டன் சிறப்பாக சேவை செய்ய உதவியதற்கு நன்றி.'}
+        ]
+      },
+      'हिन्दी': {
+        step:'चरण {n} / 3', welcome:'स्वागत है, श्री अरुण कुमार', welcomeNote:'हमसे खरीदारी करने के लिए धन्यवाद। आपकी सच्ची राय हमें आपकी बेहतर सेवा करने में मदद करती है। आपकी राय जानकर हमें खुशी होगी।',
+        labels:['भाषा चुनें','आयु वर्ग','पिन कोड','अवसर','अपने अनुभव को रेट करें'], ageSelect:'चुनें', occasionPrompt:'किस अवसर के लिए?', pinPlaceholder:'6 अंकों का पिन कोड लिखें', consent:'मैं सहमत हूँ कि रामराज कॉटन इस प्रतिक्रिया का उपयोग अपने उत्पादों और सेवाओं को बेहतर बनाने के लिए करे, और ज़रूरत पड़ने पर मुझसे संपर्क करे।',
+        ages:['18 से कम','18 – 25','26 – 35','36 – 45','46 – 60','60+'], occasions:['शादी','त्योहार','मंदिर / पूजा','रोज़ाना पहनावा','उपहार','ऑफ़िस / फ़ॉर्मल','अन्य'], bands:['Detractor','Passive','Promoter'], actions:['आगे','पीछे','सबमिट','हो गया'], optional:'वैकल्पिक', ratingTag:'रेटिंग', clear:'चयन हटाएँ', successTitle:'सफलतापूर्वक सबमिट हुआ', successNote:'हम हर जवाब खुद पढ़ते हैं। आपके समय और सच्चाई के लिए धन्यवाद।', thankYou:'धन्यवाद, श्री अरुण कुमार',
+        errors:['एक भाषा चुनें','आयु वर्ग चुनें','पिन कोड लिखें','ठीक 6 अंक होने चाहिए','अवसर चुनें','1 से 10 में एक संख्या चुनें','आगे बढ़ने के लिए बॉक्स पर टिक करें','कम से कम एक चुनें','अन्य चुनने पर टिप्पणी अनिवार्य है','कम से कम 10 अक्षर लिखें'],
+        tiers:[
+          {title:'यह सुनकर खेद है। आपके अनुभव का मुख्य कारण क्या था?',options:['उत्पाद की गुणवत्ता अच्छी नहीं थी','सीमित कलेक्शन','स्टाफ़ सहायक या विनम्र नहीं था','स्टोर का रखरखाव अच्छा नहीं था','कीमत बहुत ज़्यादा है','अन्य'],question:'क्या हम आपको कॉल करें?',choices:['हाँ, कॉल करें','नहीं, धन्यवाद'],remarks:'बताइए क्या हुआ',placeholder:'कुछ सच्ची पंक्तियाँ हमारी बहुत मदद करेंगी…',success:'आपकी प्रतिक्रिया सफलतापूर्वक सबमिट हो गई है। रामराज कॉटन को बेहतर सेवा देने में मदद करने के लिए धन्यवाद।'},
+          {title:'धन्यवाद! आपके अनुभव को और बेहतर बनाने के लिए हम क्या सुधारें?',options:['और कलेक्शन','बेहतर स्टोर माहौल और रखरखाव','बेहतर स्टाफ़ सहायता','बेहतर कीमत','अन्य'],question:'',choices:[],remarks:'कुछ और?',placeholder:'एक बात जो इसे 10 बना देती…',success:'आपकी प्रतिक्रिया सफलतापूर्वक सबमिट हो गई है। रामराज कॉटन को बेहतर सेवा देने में मदद करने के लिए धन्यवाद।'},
+          {title:'बहुत अच्छा! आपको अपने अनुभव में सबसे ज़्यादा क्या पसंद आया?',options:['उत्पाद की गुणवत्ता बहुत अच्छी थी','अच्छे कलेक्शन','स्टाफ़ सहायक था और मेरी ज़रूरत समझी','साफ़ और सुव्यवस्थित स्टोर','कीमत उचित है','अन्य'],question:'क्या आप हमारी सिफ़ारिश करेंगे?',choices:['हाँ','शायद','नहीं'],remarks:'हमारी टीम के लिए कुछ शब्द?',placeholder:'कोई व्यक्ति या बात जिसका आप उल्लेख करना चाहें…',success:'आपकी प्रतिक्रिया सफलतापूर्वक सबमिट हो गई है। रामराज कॉटन को बेहतर सेवा देने में मदद करने के लिए धन्यवाद।'}
+        ]
+      },
+      'తెలుగు': {
+        step:'దశ {n} / 3', welcome:'స్వాగతం, శ్రీ అరుణ్ కుమార్', welcomeNote:'మా వద్ద కొనుగోలు చేసినందుకు ధన్యవాదాలు. మీ నిజాయితీ అభిప్రాయం మిమ్మల్ని మెరుగ్గా సేవించడానికి సహాయపడుతుంది. మీ అభిప్రాయం వినడానికి ఆసక్తిగా ఉన్నాము.',
+        labels:['భాషను ఎంచుకోండి','వయస్సు వర్గం','పిన్ కోడ్','సందర్భం','మీ అనుభవాన్ని రేట్ చేయండి'], ageSelect:'ఎంచుకోండి', occasionPrompt:'ఏ సందర్భం కోసం?', pinPlaceholder:'6 అంకెల పిన్ కోడ్ నమోదు చేయండి', consent:'ఈ అభిప్రాయాన్ని రామరాజ్ కాటన్ తన ఉత్పత్తులు, సేవలను మెరుగుపరచడానికి ఉపయోగించడానికి, అవసరమైతే నన్ను సంప్రదించడానికి నేను అంగీకరిస్తున్నాను.',
+        ages:['18 లోపు','18 – 25','26 – 35','36 – 45','46 – 60','60+'], occasions:['పెళ్లి','పండుగ','గుడి / పూజ','రోజువారీ దుస్తులు','బహుమతి','ఆఫీస్ / ఫార్మల్','ఇతరం'], bands:['Detractor','Passive','Promoter'], actions:['తర్వాత','వెనుకకు','సమర్పించు','పూర్తయింది'], optional:'ఐచ్ఛికం', ratingTag:'రేటింగ్', clear:'ఎంపిక తీసివేయి', successTitle:'విజయవంతంగా సమర్పించబడింది', successNote:'ప్రతి స్పందనను మేము స్వయంగా చదువుతాము. మీ సమయానికి, నిజాయితీకి ధన్యవాదాలు.', thankYou:'ధన్యవాదాలు, శ్రీ అరుణ్ కుమార్',
+        errors:['ఒక భాషను ఎంచుకోండి','వయస్సు వర్గాన్ని ఎంచుకోండి','పిన్ కోడ్ నమోదు చేయండి','సరిగ్గా 6 అంకెలు ఉండాలి','సందర్భాన్ని ఎంచుకోండి','1 నుండి 10 వరకు ఒక సంఖ్యను నొక్కండి','కొనసాగించడానికి బాక్స్‌ను టిక్ చేయండి','కనీసం ఒకటి ఎంచుకోండి','ఇతరం ఎంచుకుంటే వ్యాఖ్య అవసరం','కనీసం 10 అక్షరాలు నమోదు చేయండి'],
+        tiers:[
+          {title:'క్షమించండి. మీ అనుభవానికి ప్రధాన కారణం ఏమిటి?',options:['ఉత్పత్తి నాణ్యత బాగోలేదు','పరిమిత కలెక్షన్లు','సిబ్బంది సహాయకంగా / మర్యాదగా లేరు','స్టోర్ సరిగా నిర్వహించబడలేదు','ధర చాలా ఎక్కువ','ఇతరం'],question:'మేము మీకు కాల్ చేయవచ్చా?',choices:['అవును, కాల్ చేయండి','వద్దు'],remarks:'ఏం జరిగిందో చెప్పండి',placeholder:'కొన్ని నిజాయితీ వాక్యాలు మాకు ఎంతో సహాయపడతాయి…',success:'మీ అభిప్రాయం విజయవంతంగా సమర్పించబడింది. రామరాజ్ కాటన్ మెరుగ్గా సేవించడానికి సహాయపడినందుకు ధన్యవాదాలు.'},
+          {title:'ధన్యవాదాలు! మీ అనుభవాన్ని మరింత మెరుగుపరచడానికి మేము ఏం మెరుగుపరచాలి?',options:['మరిన్ని కలెక్షన్లు','మెరుగైన స్టోర్ వాతావరణం, నిర్వహణ','మెరుగైన సిబ్బంది సహాయం','మెరుగైన ధరలు','ఇతరం'],question:'',choices:[],remarks:'ఇంకేమైనా?',placeholder:'దీన్ని 10 చేసే ఒక విషయం…',success:'మీ అభిప్రాయం విజయవంతంగా సమర్పించబడింది. రామరాజ్ కాటన్ మెరుగ్గా సేవించడానికి సహాయపడినందుకు ధన్యవాదాలు.'},
+          {title:'అద్భుతం! మీ అనుభవంలో మీకు ఏది బాగా నచ్చింది?',options:['ఉత్పత్తి నాణ్యత చాలా బాగుంది','మంచి కలెక్షన్లు','సిబ్బంది సహాయకంగా ఉన్నారు, అవసరం అర్థం చేసుకున్నారు','శుభ్రమైన, క్రమబద్ధమైన స్టోర్','ధర సహేతుకం','ఇతరం'],question:'మమ్మల్ని సిఫార్సు చేస్తారా?',choices:['అవును','కావచ్చు','లేదు'],remarks:'మా బృందానికి ఒక మాట?',placeholder:'మీరు ప్రస్తావించాలనుకునే వ్యక్తి లేదా విషయం…',success:'మీ అభిప్రాయం విజయవంతంగా సమర్పించబడింది. రామరాజ్ కాటన్ మెరుగ్గా సేవించడానికి సహాయపడినందుకు ధన్యవాదాలు.'}
+        ]
+      },
+      'ಕನ್ನಡ': {
+        step:'ಹಂತ {n} / 3', welcome:'ಸ್ವಾಗತ, ಶ್ರೀ ಅರುಣ್ ಕುಮಾರ್', welcomeNote:'ನಮ್ಮಲ್ಲಿ ಖರೀದಿಸಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು. ನಿಮ್ಮ ಪ್ರಾಮಾಣಿಕ ಅಭಿಪ್ರಾಯ ನಿಮಗೆ ಉತ್ತಮ ಸೇವೆ ನೀಡಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ. ನಿಮ್ಮ ಅಭಿಪ್ರಾಯ ಕೇಳಲು ಕಾತರರಾಗಿದ್ದೇವೆ.',
+        labels:['ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ','ವಯಸ್ಸಿನ ಗುಂಪು','ಪಿನ್ ಕೋಡ್','ಸಂದರ್ಭ','ನಿಮ್ಮ ಅನುಭವವನ್ನು ರೇಟ್ ಮಾಡಿ'], ageSelect:'ಆಯ್ಕೆ', occasionPrompt:'ಯಾವ ಸಂದರ್ಭಕ್ಕೆ?', pinPlaceholder:'6 ಅಂಕಿಯ ಪಿನ್ ಕೋಡ್ ನಮೂದಿಸಿ', consent:'ಈ ಅಭಿಪ್ರಾಯವನ್ನು ರಾಮರಾಜ್ ಕಾಟನ್ ತನ್ನ ಉತ್ಪನ್ನ ಮತ್ತು ಸೇವೆಗಳನ್ನು ಸುಧಾರಿಸಲು ಬಳಸಲು, ಅಗತ್ಯವಿದ್ದರೆ ನನ್ನನ್ನು ಸಂಪರ್ಕಿಸಲು ನಾನು ಒಪ್ಪುತ್ತೇನೆ.',
+        ages:['18 ಕ್ಕಿಂತ ಕಡಿಮೆ','18 – 25','26 – 35','36 – 45','46 – 60','60+'], occasions:['ಮದುವೆ','ಹಬ್ಬ','ದೇವಸ್ಥಾನ / ಪೂಜೆ','ದಿನನಿತ್ಯದ ಉಡುಗೆ','ಉಡುಗೊರೆ','ಕಚೇರಿ / ಫಾರ್ಮಲ್','ಇತರೆ'], bands:['Detractor','Passive','Promoter'], actions:['ಮುಂದೆ','ಹಿಂದೆ','ಸಲ್ಲಿಸಿ','ಮುಗಿದಿದೆ'], optional:'ಐಚ್ಛಿಕ', ratingTag:'ರೇಟಿಂಗ್', clear:'ಆಯ್ಕೆ ತೆರವು', successTitle:'ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ', successNote:'ಪ್ರತಿ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ನಾವು ಸ್ವಯಂ ಓದುತ್ತೇವೆ. ನಿಮ್ಮ ಸಮಯ ಮತ್ತು ಪ್ರಾಮಾಣಿಕತೆಗೆ ಧನ್ಯವಾದಗಳು.', thankYou:'ಧನ್ಯವಾದಗಳು, ಶ್ರೀ ಅರುಣ್ ಕುಮಾರ್',
+        errors:['ಒಂದು ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ','ವಯಸ್ಸಿನ ಗುಂಪು ಆಯ್ಕೆಮಾಡಿ','ಪಿನ್ ಕೋಡ್ ನಮೂದಿಸಿ','ನಿಖರವಾಗಿ 6 ಅಂಕಿಗಳಿರಬೇಕು','ಸಂದರ್ಭ ಆಯ್ಕೆಮಾಡಿ','1 ರಿಂದ 10 ರವರೆಗೆ ಒಂದು ಸಂಖ್ಯೆ ಒತ್ತಿ','ಮುಂದುವರಿಸಲು ಬಾಕ್ಸ್ ಟಿಕ್ ಮಾಡಿ','ಕನಿಷ್ಠ ಒಂದನ್ನು ಆಯ್ಕೆಮಾಡಿ','ಇತರೆ ಆಯ್ಕೆಮಾಡಿದರೆ ಟಿಪ್ಪಣಿ ಅಗತ್ಯ','ಕನಿಷ್ಠ 10 ಅಕ್ಷರ ಬರೆಯಿರಿ'],
+        tiers:[
+          {title:'ಕ್ಷಮಿಸಿ. ನಿಮ್ಮ ಅನುಭವಕ್ಕೆ ಮುಖ್ಯ ಕಾರಣವೇನು?',options:['ಉತ್ಪನ್ನದ ಗುಣಮಟ್ಟ ಚೆನ್ನಾಗಿರಲಿಲ್ಲ','ಸೀಮಿತ ಕಲೆಕ್ಷನ್‌ಗಳು','ಸಿಬ್ಬಂದಿ ಸಹಾಯಕ / ಸೌಜನ್ಯಶೀಲರಾಗಿರಲಿಲ್ಲ','ಅಂಗಡಿ ಸರಿಯಾಗಿ ನಿರ್ವಹಿಸಿಲ್ಲ','ಬೆಲೆ ತುಂಬಾ ಹೆಚ್ಚು','ಇತರೆ'],question:'ನಾವು ನಿಮಗೆ ಕರೆ ಮಾಡಬಹುದೇ?',choices:['ಹೌದು, ಕರೆ ಮಾಡಿ','ಬೇಡ'],remarks:'ಏನಾಯಿತು ಎಂದು ಹೇಳಿ',placeholder:'ಕೆಲವು ಪ್ರಾಮಾಣಿಕ ಸಾಲುಗಳು ನಮಗೆ ಬಹಳ ಸಹಾಯ ಮಾಡುತ್ತವೆ…',success:'ನಿಮ್ಮ ಅಭಿಪ್ರಾಯ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ. ರಾಮರಾಜ್ ಕಾಟನ್ ಉತ್ತಮ ಸೇವೆ ನೀಡಲು ಸಹಾಯ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು.'},
+          {title:'ಧನ್ಯವಾದಗಳು! ನಿಮ್ಮ ಅನುಭವವನ್ನು ಇನ್ನೂ ಉತ್ತಮಗೊಳಿಸಲು ನಾವು ಏನು ಸುಧಾರಿಸಬೇಕು?',options:['ಹೆಚ್ಚು ಕಲೆಕ್ಷನ್‌ಗಳು','ಉತ್ತಮ ಅಂಗಡಿ ವಾತಾವರಣ ಮತ್ತು ನಿರ್ವಹಣೆ','ಉತ್ತಮ ಸಿಬ್ಬಂದಿ ಸಹಾಯ','ಉತ್ತಮ ಬೆಲೆ','ಇತರೆ'],question:'',choices:[],remarks:'ಇನ್ನೇನಾದರೂ?',placeholder:'ಇದನ್ನು 10 ಮಾಡಬಹುದಾದ ಒಂದು ವಿಷಯ…',success:'ನಿಮ್ಮ ಅಭಿಪ್ರಾಯ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ. ರಾಮರಾಜ್ ಕಾಟನ್ ಉತ್ತಮ ಸೇವೆ ನೀಡಲು ಸಹಾಯ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು.'},
+          {title:'ಅದ್ಭುತ! ನಿಮ್ಮ ಅನುಭವದಲ್ಲಿ ನಿಮಗೆ ಹೆಚ್ಚು ಇಷ್ಟವಾದದ್ದು ಏನು?',options:['ಉತ್ಪನ್ನದ ಗುಣಮಟ್ಟ ತುಂಬಾ ಚೆನ್ನಾಗಿತ್ತು','ಉತ್ತಮ ಕಲೆಕ್ಷನ್‌ಗಳು','ಸಿಬ್ಬಂದಿ ಸಹಾಯಕರಾಗಿದ್ದರು, ಅಗತ್ಯ ಅರ್ಥಮಾಡಿಕೊಂಡರು','ಸ್ವಚ್ಛ, ಸುವ್ಯವಸ್ಥಿತ ಅಂಗಡಿ','ಬೆಲೆ ಸಮಂಜಸ','ಇತರೆ'],question:'ನಮ್ಮನ್ನು ಶಿಫಾರಸು ಮಾಡುವಿರಾ?',choices:['ಹೌದು','ಇರಬಹುದು','ಇಲ್ಲ'],remarks:'ನಮ್ಮ ತಂಡಕ್ಕೆ ಒಂದು ಮಾತು?',placeholder:'ನೀವು ಉಲ್ಲೇಖಿಸಲು ಬಯಸುವ ಯಾರಾದರೂ / ಏನಾದರೂ…',success:'ನಿಮ್ಮ ಅಭಿಪ್ರಾಯ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ. ರಾಮರಾಜ್ ಕಾಟನ್ ಉತ್ತಮ ಸೇವೆ ನೀಡಲು ಸಹಾಯ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು.'}
+        ]
+      },
+      'മലയാളം': {
+        step:'ഘട്ടം {n} / 3', welcome:'സ്വാഗതം, ശ്രീ. അരുൺ കുമാർ', welcomeNote:'ഞങ്ങളിൽ നിന്ന് വാങ്ങിയതിന് നന്ദി. നിങ്ങളുടെ സത്യസന്ധമായ അഭിപ്രായം മികച്ച സേവനം നൽകാൻ സഹായിക്കും. നിങ്ങളുടെ അഭിപ്രായം അറിയാൻ ഞങ്ങൾ ആഗ്രഹിക്കുന്നു.',
+        labels:['ഭാഷ തിരഞ്ഞെടുക്കുക','പ്രായ വിഭാഗം','പിൻ കോഡ്','അവസരം','നിങ്ങളുടെ അനുഭവം റേറ്റ് ചെയ്യുക'], ageSelect:'തിരഞ്ഞെടുക്കുക', occasionPrompt:'എന്തിനായിരുന്നു?', pinPlaceholder:'6 അക്ക പിൻ കോഡ് നൽകുക', consent:'ഈ അഭിപ്രായം രാംരാജ് കോട്ടൻ അതിന്റെ ഉൽപ്പന്നങ്ങളും സേവനങ്ങളും മെച്ചപ്പെടുത്താൻ ഉപയോഗിക്കുന്നതിനും, ആവശ്യമെങ്കിൽ എന്നെ ബന്ധപ്പെടുന്നതിനും ഞാൻ സമ്മതിക്കുന്നു.',
+        ages:['18-ന് താഴെ','18 – 25','26 – 35','36 – 45','46 – 60','60+'], occasions:['വിവാഹം','ഉത്സവം','ക്ഷേത്രം / പൂജ','ദിവസേന വസ്ത്രം','സമ്മാനം','ഓഫീസ് / ഫോർമൽ','മറ്റുള്ളവ'], bands:['Detractor','Passive','Promoter'], actions:['അടുത്തത്','മുമ്പത്തേത്','സമർപ്പിക്കുക','പൂർത്തിയായി'], optional:'ഓപ്ഷണൽ', ratingTag:'റേറ്റിംഗ്', clear:'തിരഞ്ഞെടുപ്പ് മായ്ക്കുക', successTitle:'വിജയകരമായി സമർപ്പിച്ചു', successNote:'ഓരോ പ്രതികരണവും ഞങ്ങൾ നേരിട്ട് വായിക്കുന്നു. നിങ്ങളുടെ സമയത്തിനും സത്യസന്ധതയ്ക്കും നന്ദി.', thankYou:'നന്ദി, ശ്രീ. അരുൺ കുമാർ',
+        errors:['ഒരു ഭാഷ തിരഞ്ഞെടുക്കുക','പ്രായ വിഭാഗം തിരഞ്ഞെടുക്കുക','പിൻ കോഡ് നൽകുക','കൃത്യം 6 അക്കങ്ങൾ വേണം','അവസരം തിരഞ്ഞെടുക്കുക','1 മുതൽ 10 വരെ ഒരു സംഖ്യ ടാപ്പ് ചെയ്യുക','തുടരാൻ ബോക്സ് ടിക്ക് ചെയ്യുക','കുറഞ്ഞത് ഒന്ന് തിരഞ്ഞെടുക്കുക','മറ്റുള്ളവ തിരഞ്ഞെടുത്താൽ അഭിപ്രായം നിർബന്ധം','കുറഞ്ഞത് 10 അക്ഷരങ്ങൾ എഴുതുക'],
+        tiers:[
+          {title:'ക്ഷമിക്കണം. നിങ്ങളുടെ അനുഭവത്തിന്റെ പ്രധാന കാരണം എന്തായിരുന്നു?',options:['ഉൽപ്പന്ന ഗുണനിലവാരം നല്ലതായിരുന്നില്ല','പരിമിതമായ കളക്ഷനുകൾ','ജീവനക്കാർ സഹായകരമോ മര്യാദയുള്ളവരോ ആയിരുന്നില്ല','സ്റ്റോർ നന്നായി പരിപാലിച്ചിട്ടില്ല','വില വളരെ കൂടുതൽ','മറ്റുള്ളവ'],question:'ഞങ്ങൾ നിങ്ങളെ വിളിക്കാമോ?',choices:['അതെ, വിളിക്കൂ','വേണ്ട'],remarks:'എന്താണ് സംഭവിച്ചതെന്ന് പറയൂ',placeholder:'സത്യസന്ധമായ ഏതാനും വരികൾ ഞങ്ങളെ ഏറെ സഹായിക്കും…',success:'നിങ്ങളുടെ അഭിപ്രായം വിജയകരമായി സമർപ്പിച്ചു. രാംരാജ് കോട്ടന് മികച്ച സേവനം നൽകാൻ സഹായിച്ചതിന് നന്ദി.'},
+          {title:'നന്ദി! നിങ്ങളുടെ അനുഭവം കൂടുതൽ മികച്ചതാക്കാൻ ഞങ്ങൾ എന്ത് മെച്ചപ്പെടുത്തണം?',options:['കൂടുതൽ കളക്ഷനുകൾ','മികച്ച സ്റ്റോർ അന്തരീക്ഷവും പരിപാലനവും','മികച്ച ജീവനക്കാരുടെ സഹായം','മികച്ച വില','മറ്റുള്ളവ'],question:'',choices:[],remarks:'മറ്റെന്തെങ്കിലും?',placeholder:'ഇത് 10 ആക്കുമായിരുന്ന ഒരു കാര്യം…',success:'നിങ്ങളുടെ അഭിപ്രായം വിജയകരമായി സമർപ്പിച്ചു. രാംരാജ് കോട്ടന് മികച്ച സേവനം നൽകാൻ സഹായിച്ചതിന് നന്ദി.'},
+          {title:'അതിശയം! നിങ്ങളുടെ അനുഭവത്തിൽ ഏറ്റവും ഇഷ്ടപ്പെട്ടത് എന്താണ്?',options:['ഉൽപ്പന്ന ഗുണനിലവാരം വളരെ നല്ലതായിരുന്നു','നല്ല കളക്ഷനുകൾ','ജീവനക്കാർ സഹായിച്ചു, ആവശ്യം മനസ്സിലാക്കി','വൃത്തിയുള്ള, ചിട്ടയായ സ്റ്റോർ','വില ന്യായമാണ്','മറ്റുള്ളവ'],question:'ഞങ്ങളെ ശുപാർശ ചെയ്യുമോ?',choices:['അതെ','ഒരുപക്ഷേ','ഇല്ല'],remarks:'ഞങ്ങളുടെ ടീമിന് ഒരു വാക്ക്?',placeholder:'പരാമർശിക്കാൻ ആഗ്രഹിക്കുന്ന ആരെങ്കിലും / എന്തെങ്കിലും…',success:'നിങ്ങളുടെ അഭിപ്രായം വിജയകരമായി സമർപ്പിച്ചു. രാംരാജ് കോട്ടന് മികച്ച സേവനം നൽകാൻ സഹായിച്ചതിന് നന്ദി.'}
+        ]
+      }
+    };
+    let selectedScore = null;
+    let selectedLanguage = '';
+    let selectedReasons = [];
+    let selectedFollowUp = '';
+    let activePicker = '';
+    const currentCopy = () => copy[selectedLanguage || 'English'];
+    const tierIndex = () => selectedScore <= 6 ? 0 : selectedScore <= 8 ? 1 : 2;
+
+    function applyLanguage() {
+      const locale = currentCopy();
+      const fields = ['language', 'age', 'pin', 'occasion', 'rate'];
+      fields.forEach((field, index) => { document.getElementById(`${field}-label`).textContent = locale.labels[index]; });
+      document.getElementById('consent-copy').textContent = locale.consent;
+      document.getElementById('pincode').placeholder = locale.pinPlaceholder;
+      document.getElementById('welcome-title').textContent = locale.welcome;
+      document.getElementById('header-note').textContent = locale.welcomeNote;
+      const stepNumber = !document.getElementById('step-one').hidden ? 1 : !document.getElementById('step-two').hidden ? 2 : 3;
+      document.getElementById('step-label').textContent = locale.step.replace('{n}', String(stepNumber));
+      document.getElementById('next-button').firstChild.textContent = `${locale.actions[0]} `;
+      document.getElementById('previous').textContent = locale.actions[1];
+      document.getElementById('finish').firstChild.textContent = `${locale.actions[2]} `;
+      document.getElementById('done').textContent = locale.actions[3];
+      document.getElementById('age-display').textContent = document.getElementById('age').value
+        ? locale.ages[canonicalAges.indexOf(document.getElementById('age').value)] : locale.ageSelect;
+      document.getElementById('occasion-display').textContent = document.getElementById('occasion').value
+        ? locale.occasions[canonicalOccasions.indexOf(document.getElementById('occasion').value)] : locale.occasionPrompt;
+      document.getElementById('detractor-label').textContent = locale.bands[0];
+      document.getElementById('passive-label').textContent = locale.bands[1];
+      document.getElementById('promoter-label').textContent = locale.bands[2];
+      if (!document.getElementById('language-warning').hidden && document.getElementById('language-warning').classList.contains('visible')) setFieldWarning('language', locale.errors[0]);
+      if (validationFields.age.warning.classList.contains('visible')) setFieldWarning('age', locale.errors[1]);
+      if (validationFields.pin.warning.classList.contains('visible')) setFieldWarning('pin', document.getElementById('pincode').value ? locale.errors[3] : locale.errors[2]);
+      if (validationFields.occasion.warning.classList.contains('visible')) setFieldWarning('occasion', locale.errors[4]);
+      if (validationFields.rating.warning.classList.contains('visible')) setFieldWarning('rating', locale.errors[5]);
+      if (validationFields.consent.warning.classList.contains('visible')) setFieldWarning('consent', locale.errors[6]);
+      if (!document.getElementById('step-two').hidden) renderFollowUp();
+      if (!document.getElementById('step-three').hidden) renderSuccess();
+    }
+
+    function renderSuccess() {
+      const locale = currentCopy();
+      document.getElementById('welcome-title').textContent = locale.successTitle;
+      document.getElementById('header-note').textContent = locale.successNote;
+      document.getElementById('thankyou-title').textContent = locale.thankYou;
+      document.getElementById('thankyou-note').textContent = locale.tiers[tierIndex()].success;
+      const tags = document.getElementById('success-tags');
+      const pills = [`${locale.ratingTag} ${selectedScore}/10`, selectedLanguage || 'English', locale.occasions[canonicalOccasions.indexOf(document.getElementById('occasion').value)]];
+      tags.replaceChildren();
+      pills.forEach((text) => {
+        const tag = document.createElement('span');
+        tag.className = 'success-tag';
+        tag.textContent = text;
+        tags.append(tag);
+      });
+    }
+    const validationFields = {
+      language: { wrapper: document.querySelector('.languages').closest('.field'), warning: document.getElementById('language-warning') },
+      age: { wrapper: document.getElementById('age-trigger').closest('.field'), warning: document.getElementById('age-warning') },
+      pin: { wrapper: document.getElementById('pincode').closest('.field'), warning: document.getElementById('pin-warning') },
+      occasion: { wrapper: document.getElementById('occasion-trigger').closest('.field'), warning: document.getElementById('occasion-warning') },
+      rating: { wrapper: document.querySelector('.scores').closest('.field'), warning: document.getElementById('rating-warning') },
+      consent: { wrapper: document.getElementById('consent-field'), warning: document.getElementById('consent-warning') }
+    };
+
+    function setFieldWarning(name, message = '') {
+      const field = validationFields[name];
+      field.warning.textContent = message;
+      field.warning.classList.toggle('visible', Boolean(message));
+      field.wrapper.classList.toggle('invalid', Boolean(message));
+    }
+
+    function clearFieldWarnings() {
+      Object.keys(validationFields).forEach((name) => setFieldWarning(name));
+    }
+
+    document.querySelectorAll('.open-feedback').forEach((link) => link.addEventListener('click', (event) => {
+      event.preventDefault();
+      whatsappScreen.hidden = true;
+      formScreen.hidden = false;
+    }));
+
+    languageButtons.forEach((button) => button.addEventListener('click', () => {
+      selectedLanguage = button.textContent.trim();
+      languageButtons.forEach((item) => {
+        const selected = item === button;
+        item.classList.toggle('selected', selected);
+        item.setAttribute('aria-pressed', String(selected));
+      });
+      applyLanguage();
+      setFieldWarning('language');
+      document.getElementById('error').textContent = '';
+    }));
+
+    document.querySelectorAll('[data-picker-open]').forEach((trigger) => trigger.addEventListener('click', () => {
+      openPicker(trigger.dataset.pickerOpen);
+    }));
+
+    function openPicker(type) {
+      activePicker = type;
+      const trigger = document.getElementById(`${type}-trigger`);
+      const selectedValue = document.getElementById(type).value;
+      const locale = currentCopy();
+      document.getElementById('picker-title').textContent = type === 'age' ? locale.labels[1] : locale.labels[3];
+      const options = document.getElementById('picker-options');
+      options.replaceChildren();
+      const canonicalOptions = pickerChoices[type];
+      const visibleOptions = type === 'age' ? locale.ages : locale.occasions;
+      visibleOptions.forEach((label, index) => {
+        const button = document.createElement('button');
+        const canonicalValue = canonicalOptions[index];
+        const selected = selectedValue === canonicalValue;
+        button.className = 'sheet-option';
+        button.type = 'button';
+        button.setAttribute('aria-pressed', String(selected));
+        const indicator = document.createElement('span');
+        indicator.className = 'sheet-indicator';
+        indicator.setAttribute('aria-hidden', 'true');
+        indicator.textContent = '✓';
+        const text = document.createElement('span');
+        text.textContent = label;
+        button.append(indicator, text);
+        button.addEventListener('click', () => {
+          document.getElementById(type).value = canonicalValue;
+          document.getElementById(`${type}-display`).textContent = label;
+          trigger.classList.add('selected');
+          setFieldWarning(type);
+          document.getElementById('error').textContent = '';
+          closePicker();
+        });
+        options.append(button);
+      });
+      trigger.setAttribute('aria-expanded', 'true');
+      pickerOverlay.hidden = false;
+      document.getElementById('picker-close').focus();
+    }
+
+    function closePicker() {
+      if (!activePicker) return;
+      document.getElementById(`${activePicker}-trigger`).setAttribute('aria-expanded', 'false');
+      pickerOverlay.hidden = true;
+      document.getElementById(`${activePicker}-trigger`).focus({ preventScroll: true });
+      activePicker = '';
+    }
+
+    document.getElementById('picker-close').addEventListener('click', closePicker);
+    document.querySelector('[data-picker-close]').addEventListener('click', closePicker);
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closePicker();
+    });
+
+    scoreButtons.forEach((button) => button.addEventListener('click', () => {
+      const nextScore = Number(button.textContent);
+      const tierFor = (score) => score <= 6 ? 'detractor' : score <= 8 ? 'passive' : 'promoter';
+      if (selectedScore !== null && tierFor(selectedScore) !== tierFor(nextScore)) {
+        selectedReasons = [];
+        selectedFollowUp = '';
+        document.getElementById('feedback-text').value = '';
+      }
+      selectedScore = nextScore;
+      scoreButtons.forEach((item) => {
+        const selected = item === button;
+        item.classList.toggle('selected', selected);
+        item.setAttribute('aria-pressed', String(selected));
+      });
+      setFieldWarning('rating');
+      document.getElementById('error').textContent = '';
+    }));
+
+    document.getElementById('consent').addEventListener('change', () => setFieldWarning('consent'));
+    document.getElementById('pincode').addEventListener('input', (event) => {
+      event.target.value = event.target.value.replace(/\D/g, '').slice(0, 6);
+      setFieldWarning('pin');
+    });
+
+    document.getElementById('feedback').addEventListener('submit', (event) => {
+      event.preventDefault();
+      clearFieldWarnings();
+      const error = document.getElementById('error');
+      if (!selectedLanguage) {
+        setFieldWarning('language', currentCopy().errors[0]);
+        document.querySelector('.languages').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      if (!document.getElementById('age').value) {
+        setFieldWarning('age', currentCopy().errors[1]);
+        document.getElementById('age-trigger').focus({ preventScroll: true });
+        return;
+      }
+      if (!/^\d{6}$/.test(document.getElementById('pincode').value)) {
+        setFieldWarning('pin', document.getElementById('pincode').value ? currentCopy().errors[3] : currentCopy().errors[2]);
+        document.getElementById('pincode').focus();
+        return;
+      }
+      if (!document.getElementById('occasion').value) {
+        setFieldWarning('occasion', currentCopy().errors[4]);
+        document.getElementById('occasion-trigger').focus({ preventScroll: true });
+        return;
+      }
+      if (selectedScore === null) {
+        setFieldWarning('rating', currentCopy().errors[5]);
+        document.querySelector('.scores').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      if (!document.getElementById('consent').checked) {
+        setFieldWarning('consent', currentCopy().errors[6]);
+        document.getElementById('consent').focus();
+        return;
+      }
+      document.getElementById('step-one').hidden = true;
+      document.getElementById('step-two').hidden = false;
+      document.getElementById('success-footer').hidden = true;
+      renderFollowUp();
+      document.getElementById('step-label').textContent = currentCopy().step.replace('{n}', '2');
+      document.getElementById('progress-value').style.width = '66.666%';
+    });
+
+    function currentBand() {
+      return selectedScore <= 6 ? followUpBands.detractor : selectedScore <= 8 ? followUpBands.passive : followUpBands.promoter;
+    }
+
+    function renderFollowUp() {
+      const locale = currentCopy();
+      const band = currentBand();
+      const selectedTierIndex = tierIndex();
+      const tier = locale.tiers[selectedTierIndex];
+      const occasionIndex = canonicalOccasions.indexOf(document.getElementById('occasion').value);
+      document.getElementById('summary-rating').textContent = selectedScore;
+      document.getElementById('summary-rating').style.background = band.color;
+      document.getElementById('summary-tier').textContent = `${locale.ratingTag}: ${selectedScore}/10 · ${locale.bands[selectedTierIndex]}`;
+      document.getElementById('summary-detail').textContent = `Mr. Arun Kumar · ${locale.labels[3]}: ${locale.occasions[occasionIndex]}`;
+      document.getElementById('clear-selection').hidden = selectedReasons.length === 0;
+      document.getElementById('clear-selection').lastChild.textContent = locale.clear;
+      document.getElementById('welcome-title').textContent = tier.title;
+      document.getElementById('header-note').textContent = '';
+      document.getElementById('feedback-text').placeholder = selectedReasons.includes('Other') ? `${locale.labels[3]} *` : `${locale.labels[3]} (${locale.optional})`;
+      document.getElementById('feedback-label').innerHTML = `${selectedReasons.includes('Other') ? tier.remarks : locale.labels[3]}${selectedReasons.includes('Other') ? ' <span class="required">*</span>' : ` <span>(${locale.optional})</span>`}`;
+      document.getElementById('remarks-field').classList.toggle('other-selected', selectedReasons.includes('Other'));
+      document.getElementById('feedback-text').required = selectedReasons.includes('Other');
+      document.getElementById('previous').textContent = locale.actions[1];
+      document.getElementById('finish').firstChild.textContent = `${locale.actions[2]} `;
+      const reasonsWarning = document.getElementById('reasons-warning');
+      const commentWarning = document.getElementById('comment-warning');
+      if (reasonsWarning.dataset.error === 'chips') reasonsWarning.textContent = locale.errors[7];
+      if (commentWarning.dataset.error === 'remarks') commentWarning.textContent = locale.errors[8];
+      else if (commentWarning.dataset.error === 'comment') commentWarning.textContent = locale.errors[9];
+
+      const optionList = document.getElementById('follow-up-options');
+      optionList.replaceChildren();
+      tier.options.forEach((displayLabel, index) => {
+        const canonicalLabel = band.options[index];
+        const button = document.createElement('button');
+        button.className = 'option-button';
+        button.type = 'button';
+        button.setAttribute('aria-pressed', String(selectedReasons.includes(canonicalLabel)));
+        const disableOther = canonicalLabel === 'Other' && selectedReasons.length > 0 && !selectedReasons.includes('Other');
+        const disableReasons = selectedReasons.includes('Other') && canonicalLabel !== 'Other';
+        button.disabled = disableOther || disableReasons;
+        button.style.opacity = button.disabled ? '.4' : '1';
+        const bar = document.createElement('span');
+        bar.className = 'option-bar';
+        bar.setAttribute('aria-hidden', 'true');
+        const dot = document.createElement('span');
+        dot.className = 'option-dot';
+        dot.setAttribute('aria-hidden', 'true');
+        dot.textContent = '✓';
+        const text = document.createElement('span');
+        text.textContent = displayLabel;
+        button.append(bar, dot, text);
+        button.addEventListener('click', () => {
+          if (canonicalLabel === 'Other') {
+            selectedReasons = selectedReasons.includes(canonicalLabel) ? [] : [canonicalLabel];
+          } else {
+            selectedReasons = selectedReasons.filter((reason) => reason !== 'Other');
+            selectedReasons = selectedReasons.includes(canonicalLabel) ? selectedReasons.filter((reason) => reason !== canonicalLabel) : [...selectedReasons, canonicalLabel];
+          }
+          document.getElementById('reasons-warning').textContent = '';
+          document.getElementById('reasons-warning').dataset.error = '';
+          document.getElementById('comment-warning').textContent = '';
+          document.getElementById('comment-warning').dataset.error = '';
+          renderFollowUp();
+        });
+        optionList.append(button);
+      });
+
+      const extras = document.getElementById('follow-up-extras');
+      extras.replaceChildren();
+      if (tier.question) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'follow-up-question';
+        const label = document.createElement('div');
+        label.className = 'field-label';
+        label.textContent = tier.question;
+        const choices = document.createElement('div');
+        choices.className = 'choice-row';
+        choices.setAttribute('role', 'group');
+        choices.setAttribute('aria-label', tier.question);
+        tier.choices.forEach((choice) => {
+          const button = document.createElement('button');
+          button.className = 'choice-button';
+          button.type = 'button';
+          button.textContent = choice;
+          button.setAttribute('aria-pressed', String(selectedFollowUp === choice));
+          button.addEventListener('click', () => {
+            selectedFollowUp = selectedFollowUp === choice ? '' : choice;
+            renderFollowUp();
+          });
+          choices.append(button);
+        });
+        wrapper.append(label, choices);
+        extras.append(wrapper);
+      }
+    }
+
+    document.getElementById('clear-selection').addEventListener('click', () => {
+      selectedReasons = [];
+      document.getElementById('reasons-warning').textContent = '';
+      document.getElementById('reasons-warning').dataset.error = '';
+      document.getElementById('comment-warning').textContent = '';
+      document.getElementById('comment-warning').dataset.error = '';
+      renderFollowUp();
+    });
+
+    document.getElementById('feedback-text').addEventListener('input', () => {
+      document.getElementById('comment-warning').textContent = '';
+      document.getElementById('comment-warning').dataset.error = '';
+    });
+
+    document.getElementById('previous').addEventListener('click', () => {
+      document.getElementById('step-two').hidden = true;
+      document.getElementById('step-one').hidden = false;
+      document.getElementById('step-label').textContent = currentCopy().step.replace('{n}', '1');
+      document.getElementById('progress-value').style.width = '33.333%';
+      document.getElementById('welcome-title').textContent = currentCopy().welcome;
+      document.getElementById('header-note').textContent = currentCopy().welcomeNote;
+    });
+
+    document.getElementById('finish').addEventListener('click', () => {
+      const reasonsWarning = document.getElementById('reasons-warning');
+      const commentWarning = document.getElementById('comment-warning');
+      reasonsWarning.textContent = '';
+      reasonsWarning.dataset.error = '';
+      commentWarning.textContent = '';
+      commentWarning.dataset.error = '';
+      const commentLength = document.getElementById('feedback-text').value.trim().length;
+      if (!selectedReasons.length) {
+        reasonsWarning.dataset.error = 'chips';
+        reasonsWarning.textContent = currentCopy().errors[7];
+        document.getElementById('follow-up-options').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      if (selectedReasons.includes('Other') && !commentLength) {
+        commentWarning.dataset.error = 'remarks';
+        commentWarning.textContent = currentCopy().errors[8];
+        document.getElementById('feedback-text').focus();
+        return;
+      }
+      if (commentLength > 0 && commentLength < 10) {
+        commentWarning.dataset.error = 'comment';
+        commentWarning.textContent = currentCopy().errors[9];
+        document.getElementById('feedback-text').focus();
+        return;
+      }
+      document.getElementById('step-two').hidden = true;
+      document.getElementById('step-three').hidden = false;
+      document.getElementById('success-footer').hidden = false;
+      document.getElementById('step-label').textContent = currentCopy().step.replace('{n}', '3');
+      document.getElementById('progress-value').style.width = '100%';
+      renderSuccess();
+    });
+
+    document.getElementById('done').addEventListener('click', () => {
+      document.getElementById('feedback').reset();
+      document.getElementById('feedback-text').value = '';
+      document.getElementById('age').value = '';
+      document.getElementById('occasion').value = '';
+      document.getElementById('step-one').hidden = false;
+      document.getElementById('step-two').hidden = true;
+      document.getElementById('step-three').hidden = true;
+      document.getElementById('success-footer').hidden = true;
+      document.getElementById('error').textContent = '';
+      document.getElementById('reasons-warning').textContent = '';
+      document.getElementById('reasons-warning').dataset.error = '';
+      document.getElementById('comment-warning').textContent = '';
+      document.getElementById('comment-warning').dataset.error = '';
+      clearFieldWarnings();
+      document.getElementById('clear-selection').hidden = true;
+      document.getElementById('step-label').textContent = 'Step 1 of 3';
+      document.getElementById('progress-value').style.width = '33.333%';
+      selectedLanguage = '';
+      document.getElementById('age-display').textContent = currentCopy().ageSelect;
+      document.getElementById('occasion-display').textContent = currentCopy().occasionPrompt;
+      document.getElementById('age-trigger').classList.remove('selected');
+      document.getElementById('occasion-trigger').classList.remove('selected');
+      selectedScore = null;
+      selectedReasons = [];
+      selectedFollowUp = '';
+      languageButtons.forEach((button) => {
+        button.classList.remove('selected');
+        button.setAttribute('aria-pressed', 'false');
+      });
+      scoreButtons.forEach((button) => {
+        button.classList.remove('selected');
+        button.setAttribute('aria-pressed', 'false');
+      });
+      applyLanguage();
+      formScreen.hidden = true;
+      whatsappScreen.hidden = false;
+    });
+  </script>
+</body>
+</html>
